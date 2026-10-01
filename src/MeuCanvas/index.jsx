@@ -18,8 +18,21 @@ function MeuCanvas() {
         ctx.fillStyle = "black"
 
         ctx.beginPath();
-        ctx.arc(width * Math.abs(Math.sin(Date.now() / 500)), height / 2, 100, 0, 2 * Math.PI);
+        ctx.arc(width * Math.abs(Math.sin(Date.now() / 1000)), height / 2, 100, 0, 2 * Math.PI);
         ctx.fill();
+
+        const dadosDaImagem = ctx.getImageData(0,0,width,height)
+        const dados = dadosDaImagem.data
+        const distancia = 20;
+
+        for(let x = 0; x < width; x += distancia){
+            for(let y = 0; y < height; y += distancia){
+                const i = (y * width + x) * 4;
+                if(dados[i] != 255){
+                    ctx.fillText("🍎", x, y)
+                }
+            }
+        }
 
         requestAnimationFrame(animar)
     }
