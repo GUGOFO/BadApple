@@ -1,11 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Styles from "./style.module.css";
 import badAppleVideo from "../assets/badapple.mp4";
 
-function MeuCanvas() {
+function MeuCanvas({ comAudio }) {
   const canvasRef = useRef(null);
   const videoRef = useRef(null);
-  const [comAudio, setComAudio] = useState(false);
+
+  // Reage imediatamente a alterações da prop `comAudio` enviada pelo App
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = !comAudio;
+      if (comAudio) {
+        videoRef.current.play().catch((err) => console.error("Erro ao reproduzir áudio:", err));
+      }
+    }
+  }, [comAudio]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -16,7 +25,7 @@ function MeuCanvas() {
 
     const video = document.createElement("video");
     video.src = badAppleVideo;
-    video.muted = true;
+    video.muted = !comAudio;
     video.loop = true;
     videoRef.current = video;
 
@@ -72,7 +81,11 @@ function MeuCanvas() {
           const luminosidade = (r + g + b) / 3;
 
           if (luminosidade < 128) {
-            ctx.fillText(String.fromCharCode(Math.floor(Math.random() * (90 - 65) + 65)),x,y);
+            ctx.fillText(
+              String.fromCharCode(Math.floor(Math.random() * (90 - 65) + 65)),
+              x,
+              y
+            );
           }
         }
       }
@@ -87,31 +100,7 @@ function MeuCanvas() {
     };
   }, []);
 
-  const alternarAudio = () => {
-    if (!videoRef.current) return;
-
-    const novoEstado = !comAudio;
-    videoRef.current.muted = !novoEstado;
-
-    if (novoEstado) {
-      videoRef.current.play();
-    }
-
-    setComAudio(novoEstado);
-  };
-
-  return (
-    <div className={Styles.container}>
-      <canvas ref={canvasRef} className={Styles.meuCanvas}></canvas>
-
-      <button
-        onClick={alternarAudio}
-        className={`${Styles.botaoAudio} ${comAudio ? Styles.ativo : ""}`}
-      >
-        {comAudio ? "Mudar para Mudo" : "Escutar Áudio"}
-      </button>
-    </div>
-  );
+  return <canvas ref={canvasRef} className={Styles.meuCanvas}></canvas>;
 }
 
 export default MeuCanvas;
