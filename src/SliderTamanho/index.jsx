@@ -1,6 +1,11 @@
 import Styles from "./style.module.css";
 
 function SliderTamanho({ tamanho, onChange }) {
+  const min = 6;
+  const max = 28;
+  
+  const porcentagem = ((tamanho - min) / (max - min)) * 100;
+
   return (
     <div className={Styles.sliderContainer}>
       <label htmlFor="slider-tamanho">
@@ -9,11 +14,12 @@ function SliderTamanho({ tamanho, onChange }) {
       <input
         id="slider-tamanho"
         type="range"
-        min="6"
-        max="28"
+        min={min}
+        max={max}
         step="1"
         value={tamanho}
         onChange={(e) => onChange(Number(e.target.value))}
+        style={{ "--porcentagem": `${porcentagem}%` }}
       />
     </div>
   );
