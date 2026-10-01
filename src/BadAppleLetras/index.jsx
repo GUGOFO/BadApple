@@ -2,9 +2,14 @@ import { useEffect, useRef } from "react";
 import Styles from "./style.module.css";
 import badAppleVideo from "../assets/badapple.mp4";
 
-function MeuCanvas({ comAudio }) {
+function MeuCanvas({ comAudio, tamanho }) {
   const canvasRef = useRef(null);
   const videoRef = useRef(null);
+  const tamanhoRef = useRef(tamanho);
+
+  useEffect(() => {
+    tamanhoRef.current = tamanho;
+  }, [tamanho]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -20,7 +25,6 @@ function MeuCanvas({ comAudio }) {
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const tamanhoCelula = 12;
 
     const video = document.createElement("video");
     video.src = badAppleVideo;
@@ -55,6 +59,9 @@ function MeuCanvas({ comAudio }) {
       const { width, height } = canvas;
       if (!width || !height) return;
 
+      const distancia = tamanhoRef.current;
+      const tamanhoCelula = Math.round(distancia * 1.2);
+
       ctx.drawImage(video, 0, 0, width, height);
 
       const dadosDaImagem = ctx.getImageData(0, 0, width, height);
@@ -68,8 +75,6 @@ function MeuCanvas({ comAudio }) {
       ctx.textAlign = "center";
       ctx.fillStyle = "black";
 
-      const distancia = 10;
-
       for (let x = distancia / 2; x < width; x += distancia) {
         for (let y = distancia / 2; y < height; y += distancia) {
           const px = Math.floor(x);
@@ -82,7 +87,7 @@ function MeuCanvas({ comAudio }) {
           const luminosidade = (r + g + b) / 3;
 
           if (luminosidade < 128) {
-            ctx.fillText(String.fromCharCode(Math.floor(Math.random() * (90 - 65) + 65)),x,y);
+            ctx.fillText(String.fromCharCode(Math.floor(Math.random() * (90 - 65) + 65)), x, y);
           }
         }
       }

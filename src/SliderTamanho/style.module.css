@@ -1,0 +1,14 @@
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.sliderContainer input[type="range"] {
+  accent-color: #e50914;
+  cursor: pointer;
+  width: 200px;
+}
