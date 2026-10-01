@@ -6,7 +6,6 @@ function MeuCanvas({ comAudio }) {
   const canvasRef = useRef(null);
   const videoRef = useRef(null);
 
-  // Reage imediatamente a alterações da prop `comAudio` enviada pelo App
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = !comAudio;
@@ -83,11 +82,7 @@ function MeuCanvas({ comAudio }) {
           const luminosidade = (r + g + b) / 3;
 
           if (luminosidade < 128) {
-            ctx.fillText(
-              String.fromCharCode(Math.floor(Math.random() * (90 - 65) + 65)),
-              x,
-              y
-            );
+            ctx.fillText(String.fromCharCode(Math.floor(Math.random() * (90 - 65) + 65)),x,y);
           }
         }
       }
