@@ -27,6 +27,8 @@ function MeuCanvas({ comAudio }) {
     video.src = badAppleVideo;
     video.muted = !comAudio;
     video.loop = true;
+    video.playsInline = true;
+    video.setAttribute("playsinline", "true");
     videoRef.current = video;
 
     let animacaoId;
