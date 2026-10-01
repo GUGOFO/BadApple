@@ -18,12 +18,20 @@ function MeuCanvas() {
     video.play()
 
     video.addEventListener("loadeddata", () => {
+    const LARGURA_MAXIMA = 800; 
+    
+    const proporcao = video.videoHeight / video.videoWidth;
+
+    if (video.videoWidth > LARGURA_MAXIMA) {
+        canvas.width = LARGURA_MAXIMA;
+        canvas.height = LARGURA_MAXIMA * proporcao;
+    } else {
         canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight
+        canvas.height = video.videoHeight;
+    }
 
-        animar()
-    })
-
+    animar();
+});
     
     function animar() {
   const { width, height } = canvas;

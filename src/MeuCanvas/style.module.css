@@ -1,0 +1,10 @@
+.meuCanvas {
+  max-width: 90vw;
+  max-height: 90vh;
+  
+  width: auto;
+  height: auto;
+  
+  display: block;
+  margin: 0 auto; 
+}
