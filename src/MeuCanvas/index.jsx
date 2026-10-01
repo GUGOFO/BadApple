@@ -1,29 +1,38 @@
 import { useEffect, useRef } from "react";
 import Styles from "./style.module.css";
 
+import badAppleVideo from "../assets/badapple.mp4";
+
 function MeuCanvas() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const {width, height} = canvas
     const tamanhoCelula = 24
     const ctx = canvas.getContext("2d");
 
-    animar()
+    const video = document.createElement("video")
+    video.src = badAppleVideo
+    video.muted = true; 
+    video.loop = true;
+    video.play()
+
+    video.addEventListener("loadeddata", () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight
+
+        animar()
+    })
+
     
     function animar(){
+        const {width, height} = canvas
+
         ctx.font = tamanhoCelula + "px Arial"
         ctx.textBaseline = "middle"
         ctx.textAlign = "center"
 
-        ctx.fillStyle = "white"
-        ctx.fillRect(0,0,width,height)
-        ctx.fillStyle = "black"
-
-        ctx.beginPath();
-        ctx.arc(width * Math.abs(Math.sin(Date.now() / 1000)), height / 2, 100, 0, 2 * Math.PI);
-        ctx.fill();
+        ctx.drawImage(video, 0, 0, width, height)
 
         const dadosDaImagem = ctx.getImageData(0,0,width,height)
         const dados = dadosDaImagem.data
@@ -46,7 +55,7 @@ function MeuCanvas() {
 
   return (
     <>
-      <canvas ref={canvasRef} id={Styles.meuCanvas} width={600} height={600}></canvas>
+      <canvas ref={canvasRef} id={Styles.meuCanvas}></canvas>
     </>
   );
 }
