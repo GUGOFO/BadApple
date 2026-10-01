@@ -7,11 +7,15 @@ function MeuCanvas() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const {width, height} = canvas
+    const tamanhoCelula = 24
     const ctx = canvas.getContext("2d");
 
     animar()
     
     function animar(){
+        ctx.font = tamanhoCelula + "px Arial"
+        ctx.textBaseline = "middle"
+        ctx.textAlign = "center"
 
         ctx.fillStyle = "white"
         ctx.fillRect(0,0,width,height)
