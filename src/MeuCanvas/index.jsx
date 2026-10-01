@@ -39,6 +39,7 @@ function MeuCanvas() {
   ctx.font = tamanhoCelula + "px Arial";
   ctx.textBaseline = "middle";
   ctx.textAlign = "center";
+  ctx.fillStyle = "black";
 
   const distancia = 20;
 
@@ -55,7 +56,7 @@ function MeuCanvas() {
       const luminosidade = (r + g + b) / 3;
 
       if (luminosidade < 128) {
-        ctx.fillText("🍎", x, y);
+        ctx.fillText(String.fromCharCode(Number(Math.random() * (90 - 65) + 65)), x, y);
       }
     }
   }
