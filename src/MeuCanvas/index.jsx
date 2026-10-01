@@ -25,30 +25,43 @@ function MeuCanvas() {
     })
 
     
-    function animar(){
-        const {width, height} = canvas
+    function animar() {
+  const { width, height } = canvas;
+  
+  ctx.drawImage(video, 0, 0, width, height);
 
-        ctx.font = tamanhoCelula + "px Arial"
-        ctx.textBaseline = "middle"
-        ctx.textAlign = "center"
+  const dadosDaImagem = ctx.getImageData(0, 0, width, height);
+  const dados = dadosDaImagem.data;
 
-        ctx.drawImage(video, 0, 0, width, height)
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, width, height);
 
-        const dadosDaImagem = ctx.getImageData(0,0,width,height)
-        const dados = dadosDaImagem.data
-        const distancia = 20;
+  ctx.font = tamanhoCelula + "px Arial";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
 
-        for(let x = 0; x < width; x += distancia){
-            for(let y = 0; y < height; y += distancia){
-                const i = (y * width + x) * 4;
-                if(dados[i] != 255){
-                    ctx.fillText("🍎", x, y)
-                }
-            }
-        }
+  const distancia = 20;
 
-        requestAnimationFrame(animar)
+  for (let x = distancia / 2; x < width; x += distancia) {
+    for (let y = distancia / 2; y < height; y += distancia) {
+      const px = Math.floor(x);
+      const py = Math.floor(y);
+      const i = (py * width + px) * 4;
+
+      const r = dados[i];
+      const g = dados[i + 1];
+      const b = dados[i + 2];
+
+      const luminosidade = (r + g + b) / 3;
+
+      if (luminosidade < 128) {
+        ctx.fillText("🍎", x, y);
+      }
     }
+  }
+
+  requestAnimationFrame(animar);
+}
 
 
   }, []);
